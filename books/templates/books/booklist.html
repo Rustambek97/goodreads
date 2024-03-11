@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        {% for i in kitoblar %}
+            <img style="width:180px;" src="{{ i.picture.url }}">
+            <li><a href="{% url 'bookdetail' i.id %}"> {{ i.title }} </a></li>
+            <li> {{ i.description }} </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

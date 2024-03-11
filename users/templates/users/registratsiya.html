@@ -6,22 +6,7 @@
 </head>
 <body>
     <form action="" method="post">{% csrf_token %}
-
-        <label for="username"> username </label>
-        <input id="username" type="text" name="username"> <br> <br>
-
-        <label for="first_name"> first_name </label>
-        <input id="first_name" type="text" name="first_name"><br> <br>
-
-        <label for="last_name"> last_name </label>
-        <input id="last_name" type="text" name="last_name"><br> <br>
-
-        <label for="email"> email </label>
-        <input id="email" type="text" name="email"><br> <br>
-
-        <label for="password"> password </label>
-        <input id="password" type="password" name="password"><br> <br>
-
+        {{ form.as_p }}
         <button type="submit"> Ro'yxatdan o'tish </button>
     </form>
 </body>

@@ -6,5 +6,10 @@
 </head>
 <body>
     <h2> Login sahifasi </h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ user.as_p }}
+        <button type="submit">Log In</button>
+    </form>
 </body>
 </html>
