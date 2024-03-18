@@ -1,6 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
-
+from users.models import CustomUser
 
 class UserRegistrForm(forms.Form):
     username = forms.CharField(max_length=150)
@@ -16,7 +15,7 @@ class UserRegistrForm(forms.Form):
         email = self.cleaned_data['email']
         password = self.cleaned_data['password']
 
-        user = User.objects.create_user(
+        user = CustomUser.objects.create_user(
             username=username,
             first_name=first_name,
             last_name=last_name,

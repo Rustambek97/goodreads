@@ -3,7 +3,6 @@ from django.views import View
 
 from books.models import Book
 
-
 def HomeView(request):
     return render(request, "home.html")
 

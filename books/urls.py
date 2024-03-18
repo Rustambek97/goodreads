@@ -7,3 +7,4 @@ urlpatterns = [
     path('books/', BookListView.as_view(), name='booklist'),
     path('books/<a>/', BookDetailView.as_view(), name='bookdetail')
 ]
+

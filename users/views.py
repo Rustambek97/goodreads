@@ -1,6 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from .forms import UserRegistrForm, UserLoginForm
 from django.views import View
@@ -29,6 +30,7 @@ class LoginView(View):
         if check.is_valid():
             user = check.get_user()
             login(request, user)
+            messages.success(request, "Siz tizimga kirdingiz!")
             return redirect('home')
         else:
             return redirect('login')
@@ -36,5 +38,9 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
+        messages.info(request, "Siz tizimdan chiqdingiz!")
         return redirect("home")
 
+class ProfileView(LoginRequiredMixin,View):
+    def get(self, request):
+        return render(request, "users/profile.html")
