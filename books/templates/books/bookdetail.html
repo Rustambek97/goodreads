@@ -3,9 +3,13 @@
 {% block title %} Book detail page {% endblock %}
 
 {% block content %}
-    <div>
-        <img src="{{ kitob.picture.url }}" style="width:180px">
-        <p> {{ kitob.title }} </p>
-        <p> {{ kitob.description }} </p>
+    <div class="row">
+        <div class="col-2">
+            <img src="{{ kitob.picture.url }}" style="width:180px">
+        </div>
+        <div class="col">
+            <p> {{ kitob.title }} </p>
+            <p> {{ kitob.description }} </p>
+        </div>
     </div>
 {% endblock %}

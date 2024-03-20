@@ -3,11 +3,17 @@
 {% block title %} Book list page {% endblock %}
 
 {% block content %}
-    <ul>
-        {% for i in kitoblar %}
+
+{% for i in kitoblar %}
+    <div class="row mb-4">
+        <div class="col-2">
             <img style="width:180px;" src="{{ i.picture.url }}">
-            <li><a href="{% url 'bookdetail' i.id %}"> {{ i.title }} </a></li>
-            <li> {{ i.description }} </li>
-        {% endfor %}
-    </ul>
+        </div>
+        <div class="col">
+            <a href="{% url 'bookdetail' i.id %}"> {{ i.title }} </a>
+            <p>{{ i.description }}</p>
+        </div>
+    </div>
+{% endfor %}
+
 {% endblock %}

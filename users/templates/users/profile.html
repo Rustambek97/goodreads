@@ -2,9 +2,58 @@
 
 {% block title %} Profile page {% endblock %}
 
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/profile.css' %}">
+{% endblock %}
+
 {% block content %}
-    <p> Username {{ request.user.username }} </p>
-    <p> First_name {{ request.user.first_name }} </p>
-    <p> Last_name {{ request.user.last_name }} </p>
-    <p> Email {{ request.user.email }} </p>
+
+<div class="container mt-5">
+
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card p-3 py-4">
+
+                <div class="text-center">
+                    <img src="{{ request.user.profile_picture.url }}" width="100" class="rounded-circle">
+                </div>
+
+                <div class="text-center mt-3">
+                    <span class="bg-secondary p-1 px-4 rounded text-white">Profile</span>
+                    <h5 class="mt-2 mb-0">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+                    <span> {{ request.user.email }} </span>
+
+                    <div class="px-4 mt-1">
+                        <p class="fonts">
+                            {{ request.user.date_joined | date:"M d, Y" }}
+                        </p>
+
+                    </div>
+
+                    <ul class="social-list">
+                        <li><i class="fa fa-facebook"></i></li>
+                        <li><i class="fa fa-dribbble"></i></li>
+                        <li><i class="fa fa-instagram"></i></li>
+                        <li><i class="fa fa-linkedin"></i></li>
+                        <li><i class="fa fa-google"></i></li>
+                    </ul>
+
+                    <div class="buttons">
+
+                        <a href="{% url 'editprofile' %}" class="btn btn-outline-primary px-4">edit profile</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from .forms import UserRegistrForm, UserLoginForm
+from .forms import UserRegistrForm, UserLoginForm, EditProfileForm
 from django.views import View
 
 class RegistrView(View):
@@ -44,3 +44,16 @@ class LogoutView(View):
 class ProfileView(LoginRequiredMixin,View):
     def get(self, request):
         return render(request, "users/profile.html")
+
+class EditProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = EditProfileForm(instance=request.user)
+        return render(request, "users/edit_profile.html", {'form':form})
+
+    def post(self, request):
+        form = EditProfileForm(instance=request.user, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Siz ma'lumotlaringizni muvofaqqiyatli o'zgartirdingiz!")
+            return redirect('profile')
+        return render(request, "users/edit_profile.html", {'form':form})

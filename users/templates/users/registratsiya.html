@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit"> Ro'yxatdan o'tish </button>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row">
+    <div class="col-4">
+            <form action="" method="post">{% csrf_token %}
+            {{ form | crispy }}
+            <button class="btn btn-primary" type="submit"> Ro'yxatdan o'tish </button>
     </form>
-</body>
-</html>
+    </div>
+</div>
+
+{% endblock %}
