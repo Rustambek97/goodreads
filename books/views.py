@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -8,8 +9,17 @@ def HomeView(request):
 
 class BookListView(View):
     def get(self, request):
-        kitoblar = Book.objects.all()
-        return render(request, "books/booklist.html", {'kitoblar':kitoblar})
+        kitoblar = Book.objects.all().order_by('id')
+        search_query = request.GET.get('q', '')
+        kitoblar = kitoblar.filter(title__icontains=search_query)
+
+        paginator = Paginator(kitoblar, 2)
+
+        page_num = request.GET.get('bet', 1)
+        page = paginator.page(page_num)
+        if search_query:
+            return render(request, "books/booklist.html", {'page':page, 'search':search_query})
+        return render(request, "books/booklist.html", {'page':page})
 
 
 class BookDetailView(View):

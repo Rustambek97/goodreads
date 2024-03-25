@@ -69,8 +69,8 @@ class LoginTestCase(TestCase):
             email="r.baltayev9997@gmail.com",
             password="somepassword"
         )
-
-        self.client.post(
+        user.save()
+        response = self.client.post(
             reverse("login"),
             data={
                 "username":"Testlovchi",
@@ -80,5 +80,8 @@ class LoginTestCase(TestCase):
 
         user = get_user(self.client)
         self.assertTrue(user.is_authenticated)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("home"))
+
 
 
