@@ -34,19 +34,19 @@
 
           {% if page.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="{% url 'booklist' %}?bet={{page.previous_page_number}}" aria-label="Previous">
+              <a class="page-link" href="{% url 'booklist' %}?bet={{page.previous_page_number}}&q={{search}}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <li class="page-item"><a class="page-link" href="{% url 'booklist' %}?bet={{page.previous_page_number}}">{{ page.previous_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="{% url 'booklist' %}?bet={{page.previous_page_number}}&q={{search}}">{{ page.previous_page_number }}</a></li>
           {% endif %}
 
         <li class="page-item"><a class="page-link active" href="#">{{ page.number }}</a></li>
 
           {% if page.has_next %}
-            <li class="page-item"><a class="page-link" href="{% url 'booklist' %}?bet={{page.next_page_number}}">{{ page.next_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="{% url 'booklist' %}?bet={{page.next_page_number}}&q={{search}}">{{ page.next_page_number }}</a></li>
             <li class="page-item">
-              <a class="page-link" href="{% url 'booklist' %}?bet={{page.next_page_number}}" aria-label="Next">
+              <a class="page-link" href="{% url 'booklist' %}?bet={{page.next_page_number}}&q={{search}}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
