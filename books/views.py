@@ -1,15 +1,13 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 
-from books.forms import BookReviewForm
+from books.forms import BookReviewForm, BookEditForm
 from books.models import Book, Review
 
-
-def HomeView(request):
-    return render(request, "home.html")
 
 class BookListView(View):
     def get(self, request):
@@ -49,3 +47,32 @@ class BookReviewView(LoginRequiredMixin,View):
             return redirect(reverse("bookdetail", kwargs={'a':kitob.id}))
 
         return render(request, "books/bookdetail.html", {'kitob':kitob, 'sharxlar':sharxlar, 'form':review_form})
+
+class AdminCheck(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+class BookEditView(LoginRequiredMixin,AdminCheck,View):
+    def get(self, request, id):
+        form = BookEditForm()
+        return render(request, "books/bookedit.html", {"form":form})
+
+    def post(self, request, id):
+        form = BookEditForm(data=request.POST)
+
+        if form.is_valid():
+            kitob = Book.objects.filter(id=id)
+            kitob.update(title=form.cleaned_data['title'],description=form.cleaned_data['description'])
+
+            return redirect("booklist")
+
+        return render(request, "books/bookedit.html", {"form":form})
+
+
+class BookDeleteView(LoginRequiredMixin,AdminCheck,View):
+    def get(self, request, id):
+        kitob = Book.objects.get(id=id)
+        kitob.delete()
+        messages.success(request, "Siz kitob o'chirdingiz!")
+        return redirect("booklist")

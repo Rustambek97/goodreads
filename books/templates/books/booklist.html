@@ -18,9 +18,15 @@
                 <div class="col-2">
                     <img style="width:180px;" src="{{ i.picture.url }}">
                 </div>
-                <div class="col">
+                <div class="col-8">
                     <a href="{% url 'bookdetail' i.id %}"> {{ i.title }} </a>
                     <p>{{ i.description }}</p>
+                </div>
+                <div class="col-2">
+                    {% if request.user.is_superuser %}
+                        <a href="{% url 'bookedit' i.id %}"> edit </a> <br> <br>
+                        <a href="{% url 'bookdelete' i.id %}"> delete </a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
