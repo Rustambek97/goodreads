@@ -3,47 +3,64 @@
 {% block title %} Book detail page {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-2">
-            <img src="{{ kitob.picture.url }}" style="width:180px">
-        </div>
-        <div class="col">
-            <p> {{ kitob.title }} </p>
-            <p> {{ kitob.description }} </p>
-        </div>
+<div class="row">
+    <div class="col-2">
+        <img src="{{ kitob.picture.url }}" style="width:180px">
     </div>
+    <div class="col">
+        <p> {{ kitob.title }} </p>
+
+        {% for i in kitob.book_author_set.all %}
+        {% if forloop.last %}
+        <i> {{ i.fullname }} </i>
+        {% else %}
+        <i> {{ i.fullname }}, </i>
+        {% endif %}
+        {% endfor %}
+
+
+        <p> {{ kitob.description }} </p>
+    </div>
+</div>
 
 <br>
-    <h3> Sharhlar </h3>
-    <hr>
-    {% if request.user.is_authenticated %}
-    <div class="row">
-        <div class="col-4">
-            <form method="post" action="{% url 'bookreview' kitob.id %}">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <button class="btn btn-primary mb-4" type="submit"> Send </button>
-            </form>
-        </div>
+<h3> Sharhlar </h3>
+<hr>
+{% if request.user.is_authenticated %}
+<div class="row">
+    <div class="col-4">
+        <form method="post" action="{% url 'bookreview' kitob.id %}">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button class="btn btn-primary mb-4" type="submit"> Send</button>
+        </form>
     </div>
-    {% else %}
-        <p>
-            <a href="{% url 'login' %}"> izoh yozish </a>
-        </p>
+</div>
+{% else %}
+<p>
+    <a href="{% url 'login' %}"> izoh yozish </a>
+</p>
+{% endif %}
+
+
+{% for sharx in sharxlar %}
+<div>
+    <img style="width:30px; border-radius:50%;" src="{{ sharx.user_id.profile_picture.url }}">
+    <b> {{ sharx.user_id.first_name }} {{ sharx.user_id.last_name }} </b>
+    {% if request.user == sharx.user_id %}
+    <a href="{% url 'reviewdelete' sharx.id %}">
+        <i class="bi bi-trash"></i>
+    </a>
+    <a href="{% url 'reviewedit' sharx.id %}">
+        <i class="bi bi-pencil"></i>
+    </a>
     {% endif %}
+    <p class="mt-2 ms-4">
+        {{ sharx.description }}
+    </p>
+</div>
 
-
-    {% for sharx in sharxlar %}
-        <div>
-            <img style="width:30px; border-radius:50%;" src="{{ sharx.user_id.profile_picture.url }}">
-            <b> {{ sharx.user_id.first_name }} {{ sharx.user_id.last_name }} </b>
-            <p class="mt-2 ms-4">
-                {{ sharx.description }}
-            </p>
-        </div>
-
-    {% endfor %}
-
+{% endfor %}
 
 
 {% endblock %}

@@ -14,10 +14,17 @@ class Book(models.Model):
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.first_name
 
 class Book_Author(models.Model):
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
     author_id = models.ForeignKey(Author, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.book_id.title} by {self.author_id.first_name}"
+
+    def fullname(self):
+        return f"{self.author_id.first_name} {self.author_id.last_name}"
 
 class Review(models.Model):
     description = models.TextField()

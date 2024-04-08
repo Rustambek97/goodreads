@@ -76,3 +76,29 @@ class BookDeleteView(LoginRequiredMixin,AdminCheck,View):
         kitob.delete()
         messages.success(request, "Siz kitob o'chirdingiz!")
         return redirect("booklist")
+
+
+class DeleteReview(View):
+    def get(self, request, id):
+        review = Review.objects.get(id=id)
+        kitobid = review.book_id.id
+        review.delete()
+
+        return redirect(reverse("bookdetail", kwargs={'a':kitobid}))
+
+class EditReview(View):
+    def get(self, request, sharxid):
+        sharx = Review.objects.get(id=sharxid)
+        edit_form = BookEditForm(instance=sharx)
+        return render(request, "books/editreview.html", {'form':edit_form, 'sharxid':sharxid})
+
+    def post(self, request, sharxid):
+        sharx = Review.objects.get(id=sharxid)
+        edit_form = BookEditForm(data=request.POST, instance=sharx)
+        kitobid = sharx.book_id.id
+
+        if edit_form.is_valid():
+            edit_form.save()
+            return redirect(reverse("bookdetail", kwargs={'a':kitobid}))
+
+        return render(request, "books/editreview.html", {'form': edit_form, 'sharxid': sharxid})
