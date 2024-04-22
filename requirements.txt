@@ -1,0 +1,5 @@
+crispy-bootstrap5==2024.2
+Django==4.2.11
+djangorestframework==3.15.1
+mysql==0.0.3
+pillow==10.3.0
