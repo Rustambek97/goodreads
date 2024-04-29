@@ -16,16 +16,6 @@ class RegistrView(View):
         user = UserRegistrForm(data=request.POST)
         if user.is_valid():
             user.save()
-
-            if user.cleaned_data['email']:
-                send_mail(
-                    "Welcome to goodreads clone",
-                    f"{user.cleaned_data['username']} Welcome, can I help you?",
-                    "r.baltayev9997@gmail.com",
-                    [user.cleaned_data['email']],
-                    fail_silently=False
-                )
-
             return redirect("login")
         else:
             return render(request, "users/registratsiya.html", {'form': user})
